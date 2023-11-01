@@ -2,11 +2,11 @@ const express = require("express")
 const exphbs = require("express-handlebars")
 const mysql = require ("mysql2")
 
-const app = express
+const app = express()
 
 //definindo handlebars
 app.engine("handlebars", exphbs.engine())
-app.request("view engine", "handlebars")
+app.set("view engine", "handlebars")
 
 //pasta de arquivo
 app.use(express.static("public"))
@@ -19,7 +19,27 @@ app.use(express.urlencoded({
 app.use(express.json())
 
 //rotas
-app.length("/",(req, res)=>{
+app.post("/register/save", (res, req)=> {
+    const {title, pageqty} = req.body
+
+    const query = `
+        INSERT INTO books (title, pegaqty)
+        VALUES ('${title}', '${pageqty}')
+    `
+    conn.query(query, (error)=>{
+        if (error){
+            console.log(error)
+            return
+            res.redirect("/")
+        }
+    })
+})
+
+app.get("/register",(req, res)=>{
+    res.render("register")
+})
+
+app.get("/",(req, res)=>{
     res.render("home")
 })
 
@@ -27,9 +47,9 @@ app.length("/",(req, res)=>{
 const conn = mysql.createConnection({
     host: "localhost",
     user: "hoot",
-    password: "root",
+    password: "laecio2172",
     database:"nodemysql",
-    port: 3307
+    port: 3306
 
 })
 
@@ -42,6 +62,6 @@ conn.connect((error)=> {
     console.log("Conectado ao mysql")
 
     app.listen(3000),()=>{
-        console.log("servidor rodando na porta 300")
+        console.log("servidor rodando na porta 3000!")
     }
 })
