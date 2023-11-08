@@ -19,12 +19,12 @@ header ul{
     display: flex;
     gap: 3rem;
 }
-.books{
+.book{
     border: 1px solid #ccc;
     width: 30rem;
     padding: 1rem;
     border-radius: 1rem;
 }
-.books + .books{
-    border-top: 1rem;
+.book + .book{
+    margin-top: 1rem;
 }
